@@ -1,0 +1,14 @@
+---
+description: Convenciones 3scaleextract — Go CLI export/seed/visualize
+globs: 3scaleextract/**/*
+alwaysApply: false
+---
+
+# 3scaleextract (Go 1.22+)
+
+- Module path objetivo: `github.com/Everything-is-Code/3scaleextract`.
+- Paquetes: `internal/admin`, `internal/export`, `internal/seed`, `internal/visualize`, `internal/output`.
+- Export híbrido: Admin API JSON + toolbox `3scale product export` (Docker/Podman).
+- Schema manifest: constante `output.SchemaVersion = "1.0"`.
+- Tests existentes en admin/export/visualize; gap principal: `internal/seed/seeder.go` con mock HTTP.
+- CI: `go test ./...` en `.github/workflows/ci.yml`.

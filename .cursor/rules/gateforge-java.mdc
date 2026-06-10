@@ -1,0 +1,15 @@
+---
+description: Convenciones GateForge — Quarkus, MigrationService, Kuadrant
+globs: gateforge/**/*
+alwaysApply: false
+---
+
+# GateForge (Java / Quarkus)
+
+- Backend: `gateforge/backend/src/main/java/io/gateforge/`
+- Modelo producto: `ThreeScaleProduct.java` — fuente para import offline.
+- Migración central: `MigrationService.java` — estrategias `shared`, `dual`, `dedicated`.
+- Recursos generados: HTTPRoute, AuthPolicy, RateLimitPolicy, APIProduct, APIKey (Kuadrant v1).
+- Tests: JUnit 5 + Mockito; REST Assured para endpoints. Crear `src/test/java/` si no existe.
+- CI: no usar `-DskipTests` en `.github/workflows/build-push-quay.yml`.
+- Auth modes: API Key → AuthPolicy apiKey; OIDC → AuthPolicy jwt con `issuerUrl`.
