@@ -1,28 +1,28 @@
 # GateForge — MCP Tools
 
-GateForge expone servidores MCP (Model Context Protocol) vía Quarkus MCP SSE para clientes externos (Cursor, otros agentes).
+GateForge exposes MCP (Model Context Protocol) servers via Quarkus MCP SSE for external clients (Cursor, other agents).
 
-## Clases
+## Classes
 
-| Clase | Dominio |
-|-------|---------|
-| `ThreeScaleMcpTools` | Admin API 3scale — products, backends |
-| `KubernetesMcpTools` | Recursos cluster, namespaces |
+| Class | Domain |
+|-------|--------|
+| `ThreeScaleMcpTools` | 3scale Admin API — products, backends |
+| `KubernetesMcpTools` | Cluster resources, namespaces |
 | `ConnectivityLinkMcpTools` | Kuadrant policies, topology |
 
-## Uso vs Chat interno
+## Usage vs internal chat
 
-- MCP tools están disponibles para **clientes MCP externos**.
-- El chat UI de GateForge usa **context injection manual** en `ChatResource`, no invoca MCP tools en loop.
-- Roadmap: conectar chat con tool calling real (fuera de M1-M3).
+- MCP tools are available to **external MCP clients**.
+- GateForge chat UI uses **manual context injection** in `ChatResource`, not MCP tool loops.
+- Roadmap: connect chat to real tool calling (post M1–M3).
 
-## Desarrollo
+## Development
 
-- Dependencia: `quarkus-mcp-server-sse`
-- Endpoints SSE documentados en gateforge README / docs site
-- Al agregar tool: documentar parámetros aquí y en skill `gateforge-migration`
+- Dependency: `quarkus-mcp-server-sse`
+- SSE endpoints documented in gateforge README / docs site
+- When adding a tool: document parameters here and in skill `gateforge-migration`
 
-## Seguridad
+## Security
 
-- MCP expone operaciones cluster — restringir en producción vía network policy / auth.
-- No retornar tokens Admin API en respuestas de tools.
+- MCP exposes cluster operations — restrict in production via network policy / auth.
+- Do not return Admin API tokens in tool responses.

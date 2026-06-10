@@ -1,13 +1,14 @@
 ---
-description: Reglas globales RHCL — migración 3scale a Connectivity Link
+description: RHCL global rules — 3scale to Connectivity Link migration
 globs:
 alwaysApply: true
 ---
 
-# RHCL — Reglas globales
+# RHCL — Global rules
 
-- Workspace multi-repo: `3scaleextract`, `gateforge`, `rhcl-ai`.
-- Contrato export offline: `schema_version` **1.0** en `manifest.json` (ver rhcl-ai/docs/architecture/export-schema-v1.md).
-- No incluir secretos en commits; usar `--redact-secrets` al exportar para fixtures.
-- Issues referenciados como EXT-*, GF-*, INT-* según repo.
-- Priorizar tests antes de features nuevas en GateForge (hoy sin `src/test/`).
+- Multi-repo workspace: `3scaleextract`, `gateforge`, `rhcl-ai`.
+- **English only** for agent context, rules, skills, docs, issues, PRs, and code comments.
+- Offline export contract: `schema_version` **1.0** in `manifest.json` (see rhcl-ai/docs/architecture/export-schema-v1.md).
+- Do not commit secrets; use `--redact-secrets` when exporting fixtures.
+- Issues referenced as EXT-*, GF-*, INT-* per repo.
+- Prioritize tests before new features in GateForge (no `src/test/` yet).

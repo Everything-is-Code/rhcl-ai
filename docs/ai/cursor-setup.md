@@ -1,47 +1,49 @@
-# Configurar Cursor — rules y skills RHCL
+# Cursor setup — RHCL rules and skills
 
-Guía para desarrolladores del programa **3scale → Connectivity Link**. Las rules y skills oficiales viven en este repo ([`rhcl-ai`](https://github.com/Everything-is-Code/rhcl-ai)).
+Developer guide for the **3scale → Connectivity Link** program. Official rules and skills live in this repo ([`rhcl-ai`](https://github.com/Everything-is-Code/rhcl-ai)).
 
-## Qué incluye rhcl-ai
+**All rules, skills, and agent docs must be written in English.**
+
+## What rhcl-ai includes
 
 ```
 rhcl-ai/
-├── AGENTS.md                 # Instrucciones globales para agentes
+├── AGENTS.md                 # Global agent instructions
 └── .cursor/
-    ├── rules/                # Reglas persistentes (.mdc)
-    │   ├── rhcl-global.mdc   # Siempre activa (programa completo)
+    ├── rules/                # Persistent rules (.mdc)
+    │   ├── rhcl-global.mdc   # Always active (whole program)
     │   ├── gateforge-java.mdc
     │   └── 3scaleextract-go.mdc
-    └── skills/               # Skills invocables por el agente
+    └── skills/               # Agent-invokable skills
         ├── pr-review-rhcl/
         ├── gateforge-migration/
         ├── 3scale-export-schema/
         └── lab-pipeline-seed-export-migrate/
 ```
 
-| Rule | Cuándo aplica |
-|------|----------------|
-| `rhcl-global.mdc` | **Siempre** (`alwaysApply: true`) |
-| `gateforge-java.mdc` | Archivos bajo `gateforge/**` |
-| `3scaleextract-go.mdc` | Archivos bajo `3scaleextract/**` |
+| Rule | When it applies |
+|------|-----------------|
+| `rhcl-global.mdc` | **Always** (`alwaysApply: true`) |
+| `gateforge-java.mdc` | Files under `gateforge/**` |
+| `3scaleextract-go.mdc` | Files under `3scaleextract/**` |
 
 ---
 
-## Prerrequisito: layout del workspace
+## Prerequisite: workspace layout
 
-Cursor lee `.cursor/rules/` desde la **raíz del workspace** que tengas abierta. Por eso el layout recomendado es un directorio padre con los tres repos:
+Cursor reads `.cursor/rules/` from the **workspace root** you have open. Use a parent directory with all three repos:
 
 ```
-rhcl/                          ← abrir ESTA carpeta en Cursor
+rhcl/                          ← open THIS folder in Cursor
 ├── 3scaleextract/
 ├── gateforge/
 ├── rhcl-ai/
-└── .cursor/                   ← rules/skills enlazados o copiados (ver abajo)
+└── .cursor/                   ← linked or copied rules/skills (see below)
     ├── rules/
     └── skills/
 ```
 
-Clonar repos:
+Clone repos:
 
 ```bash
 mkdir rhcl && cd rhcl
@@ -50,148 +52,140 @@ git clone https://github.com/Everything-is-Code/gateforge.git
 git clone https://github.com/Everything-is-Code/rhcl-ai.git
 ```
 
+Or run: `./rhcl-ai/scripts/setup-rhcl-workspace.sh`
+
 ---
 
-## Opción A — Recomendada: workspace multi-repo + enlace a rhcl-ai
+## Option A — Recommended: multi-repo workspace + link to rhcl-ai
 
-Enlazar `.cursor` del workspace padre al de `rhcl-ai`. Así siempre tenés la versión actualizada del repo de AI.
+Link the parent workspace `.cursor` to `rhcl-ai/.cursor` so you always get the latest AI repo version.
 
 ### Linux / macOS
 
 ```bash
 cd rhcl
 ln -s rhcl-ai/.cursor .cursor
+ln -s rhcl-ai/AGENTS.md AGENTS.md   # optional
 ```
 
-### Windows (PowerShell, terminal como administrador si falla el symlink)
+### Windows (PowerShell; admin terminal if symlink fails)
 
 ```powershell
 cd rhcl
 New-Item -ItemType SymbolicLink -Path .cursor -Target rhcl-ai\.cursor
 ```
 
-Si no podés crear symlinks, usá la **Opción B** (copia).
+If symlinks are not available, use **Option B** (copy).
 
-### Archivo de workspace (opcional)
+### Workspace file (optional)
 
-Copiá [`templates/rhcl.code-workspace.example`](../templates/rhcl.code-workspace.example) a `rhcl/rhcl.code-workspace` y abrí ese archivo con **File → Open Workspace from File**. Incluye las tres carpetas y una nota sobre `.cursor`.
+Copy [`templates/rhcl.code-workspace.example`](../templates/rhcl.code-workspace.example) to `rhcl/rhcl.code-workspace` and open it via **File → Open Workspace from File**.
 
 ---
 
-## Opción B — Copiar rules/skills al workspace padre
+## Option B — Copy rules/skills to workspace root
 
-Útil en Windows sin permisos de symlink o CI efímero.
+Useful on Windows without symlink permissions or ephemeral CI.
 
 ```bash
 cd rhcl
-cp -r rhcl-ai/.cursor .cursor
-```
-
-**Importante:** después de cada `git pull` en `rhcl-ai`, volvé a copiar o usá un script:
-
-```bash
 ./rhcl-ai/scripts/sync-cursor-config.sh
 ```
 
-En Windows:
+Windows:
 
 ```powershell
 .\rhcl-ai\scripts\sync-cursor-config.ps1
 ```
 
+Re-run after each `git pull` in `rhcl-ai` when using copy (not symlink).
+
 ---
 
-## Opción C — Un solo repo abierto (gateforge o 3scaleextract)
+## Option C — Single repo open (gateforge or 3scaleextract)
 
-Si abrís solo `gateforge/` o `3scaleextract/` como workspace:
+If you open only `gateforge/` or `3scaleextract/` as the workspace:
 
-1. Copiá rules relevantes a ese repo:
+1. Copy relevant rules into that repo:
 
 ```bash
-# Desde gateforge/
+# From gateforge/
 mkdir -p .cursor/rules .cursor/skills
 cp ../rhcl-ai/.cursor/rules/rhcl-global.mdc .cursor/rules/
 cp ../rhcl-ai/.cursor/rules/gateforge-java.mdc .cursor/rules/
 cp -r ../rhcl-ai/.cursor/skills/* .cursor/skills/
 ```
 
-2. Ajustá el glob en `gateforge-java.mdc` de `gateforge/**/*` a `**/*` si hace falta (el workspace ya es la raíz de gateforge).
+2. Adjust glob in `gateforge-java.mdc` from `gateforge/**/*` to `**/*` if needed.
 
-3. Copiá también `AGENTS.md` a la raíz del repo o referenciá el de rhcl-ai en el chat.
+3. Copy or symlink `AGENTS.md` to the repo root.
 
 ---
 
-## Verificar que Cursor carga las rules
+## Verify Cursor loads rules
 
-1. Abrí la carpeta **`rhcl/`** (no solo un subrepo), con `.cursor` enlazado o copiado.
-2. En Cursor: **Settings → Cursor Settings → Rules** (o el panel **Rules** en el sidebar del Agent).
-3. Deberías ver:
+1. Open **`rhcl/`** (not a single subrepo) with `.cursor` linked or copied.
+2. In Cursor: **Settings → Cursor Settings → Rules** (or **Rules** in the Agent sidebar).
+3. You should see:
    - `rhcl-global` — Always
-   - `gateforge-java` — cuando trabajes en archivos bajo `gateforge/`
-   - `3scaleextract-go` — cuando trabajes en archivos bajo `3scaleextract/`
-4. Abrí un archivo como `gateforge/backend/.../MigrationService.java` y comprobá que la rule `gateforge-java` aparece como activa.
+   - `gateforge-java` — when editing files under `gateforge/`
+   - `3scaleextract-go` — when editing files under `3scaleextract/`
+4. Open `gateforge/backend/.../MigrationService.java` and confirm `gateforge-java` is active.
 
-### Prueba rápida en el chat
+### Quick chat test
 
-Escribí en Agent:
+Ask the Agent:
 
-> ¿Qué rules RHCL tenés activas y cuál es el schema_version del export offline?
+> What RHCL rules are active and what is the offline export schema_version?
 
-El agente debería mencionar `1.0` y las convenciones de `rhcl-global`.
+The agent should mention `1.0` and `rhcl-global` conventions.
 
 ---
 
 ## Skills
 
-Los skills están en `.cursor/skills/<nombre>/SKILL.md`. Cursor los descubre por el frontmatter `description` — no hace falta registrarlos manualmente si `.cursor/skills/` está en la raíz del workspace.
+Skills live in `.cursor/skills/<name>/SKILL.md`. Cursor discovers them via frontmatter `description` — no manual registration if `.cursor/skills/` is at the workspace root.
 
-| Skill | Invocación típica |
+| Skill | Typical invocation |
 |-------|-------------------|
-| `pr-review-rhcl` | "Revisá este PR según estándares RHCL" |
-| `gateforge-migration` | "Implementá tests para MigrationService.analyze" |
-| `3scale-export-schema` | "Parseá este manifest.json export v1" |
-| `lab-pipeline-seed-export-migrate` | "Corré el pipeline seed → export → visualize" |
+| `pr-review-rhcl` | "Review this PR against RHCL standards" |
+| `gateforge-migration` | "Add tests for MigrationService.analyze" |
+| `3scale-export-schema` | "Parse this export v1 manifest.json" |
+| `lab-pipeline-seed-export-migrate` | "Run seed → export → visualize pipeline" |
 
-También podés mencionarlos con `@` si tu versión de Cursor soporta referencias a skills en el chat.
+Reference skills with `@` if your Cursor version supports it.
 
 ---
 
 ## AGENTS.md
 
-[AGENTS.md](../../AGENTS.md) complementa las rules con contexto de programa (prioridades PO, flujo de issues, repos). Cursor lo usa como instrucción de proyecto cuando está en la raíz del workspace.
-
-Si tu workspace es `rhcl/` y no tenés `AGENTS.md` en la raíz:
-
-```bash
-cd rhcl
-ln -s rhcl-ai/AGENTS.md AGENTS.md   # o copiar
-```
+[AGENTS.md](../../AGENTS.md) complements rules with program context (PO priorities, issue flow, repos). Cursor uses it as project instructions when at the workspace root.
 
 ---
 
-## Actualizar rules/skills (equipo PO)
+## Updating rules/skills (PO team)
 
-1. Cambios solo en **rhcl-ai** → PR a `Everything-is-Code/rhcl-ai`.
-2. Tras merge, cada dev ejecuta `git pull` en `rhcl-ai` y:
-   - symlink: automático
-   - copia: `./rhcl-ai/scripts/sync-cursor-config.sh`
-3. Comunicar en el canal del equipo si hay rules nuevas o cambios de contrato export.
+1. Changes land in **rhcl-ai** via PR.
+2. After merge, each dev runs `git pull` in `rhcl-ai`:
+   - symlink: automatic
+   - copy: `./rhcl-ai/scripts/sync-cursor-config.sh`
+3. Announce new rules or export contract changes in the team channel.
 
 ---
 
 ## Troubleshooting
 
-| Problema | Solución |
-|----------|----------|
-| No veo rules en Settings | Workspace abierto es un subrepo; subí un nivel a `rhcl/` |
-| Rules no aplican a archivos Go/Java | Globs asumen raíz `rhcl/`; verificá paths `gateforge/**`, `3scaleextract/**` |
-| Symlink falla en Windows | Usá Opción B (copia) o PowerShell como admin |
-| Skills no se invocan | Confirmá `.cursor/skills/` en raíz del workspace, no solo dentro de `rhcl-ai/` sin enlace |
-| Agente ignora export schema | Abrí un archivo del export o mencioná `@3scale-export-schema` / skill por nombre |
+| Problem | Fix |
+|---------|-----|
+| No rules in Settings | Workspace is a subrepo; open parent `rhcl/` |
+| Rules not applied to Go/Java files | Globs assume `rhcl/` root; check `gateforge/**`, `3scaleextract/**` |
+| Symlink fails on Windows | Option B (copy) or admin PowerShell |
+| Skills not invoked | Confirm `.cursor/skills/` at workspace root, not only inside unlinked `rhcl-ai/` |
+| Agent ignores export schema | Open an export file or mention `@3scale-export-schema` |
 
 ---
 
-## Referencias
+## References
 
 - [AGENTS.md](../../AGENTS.md)
 - [local-lab-setup.md](../workflows/local-lab-setup.md)

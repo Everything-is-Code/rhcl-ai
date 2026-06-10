@@ -1,40 +1,40 @@
-# GateForge — LangChain4j y AI
+# GateForge — LangChain4j and AI
 
-GateForge usa **LangChain4j** (Quarkus extension) para análisis post-generación y chat asistente.
+GateForge uses **LangChain4j** (Quarkus extension) for post-generation analysis and assistant chat.
 
-## Componentes
+## Components
 
-| Clase | Rol |
-|-------|-----|
-| `MigrationAgent` | Servicio AI registrado (`@RegisterAiService`) |
-| `GateForgeTools` | Tools con `@Tool` — contexto cluster/3scale |
-| `ChatResource` | REST `/api/chat` — inyecta contexto manualmente |
+| Class | Role |
+|-------|------|
+| `MigrationAgent` | Registered AI service (`@RegisterAiService`) |
+| `GateForgeTools` | `@Tool` methods — cluster/3scale context |
+| `ChatResource` | REST `/api/chat` — manual context injection |
 
-## Modo actual: context injection (no RAG)
+## Current mode: context injection (not RAG)
 
-- El chat **no usa RAG** sobre documentos estáticos.
-- `ChatResource.buildContextMessage()` prepone estado live: productos 3scale, clusters, planes recientes.
-- FAQ cache en Infinispan/Data Grid — 10 prompts, TTL 24h, warm-up al startup.
+- Chat **does not use RAG** over static documents.
+- `ChatResource.buildContextMessage()` prepends live state: 3scale products, clusters, recent plans.
+- FAQ cache in Infinispan/Data Grid — 10 prompts, 24h TTL, warm-up at startup.
 
-## Verificación post-generación
+## Post-generation verification
 
-`MigrationService.runAiVerification()` — el agente revisa YAML generado tras `analyze()`.
+`MigrationService.runAiVerification()` — agent reviews generated YAML after `analyze()`.
 
-## Configuración
+## Configuration
 
-Variables típicas (Helm / `.env`):
+Typical variables (Helm / `.env`):
 
 - `QUARKUS_LANGCHAIN4J_OPENAI_API_KEY`
-- `QUARKUS_LANGCHAIN4J_OPENAI_BASE_URL` (compatible LiteLLM)
-- Modelo default documentado en gateforge README (deepseek-r1-distill-qwen-14b en lab)
+- `QUARKUS_LANGCHAIN4J_OPENAI_BASE_URL` (LiteLLM-compatible)
+- Default model documented in gateforge README (deepseek-r1-distill-qwen-14b in lab)
 
-## Limitaciones conocidas
+## Known limitations
 
-- `GateForgeTools` tiene `@Tool` pero **no está en loop agentic autónomo** del chat.
-- MCP server existe por separado — ver [mcp-tools-gateforge.md](mcp-tools-gateforge.md).
+- `GateForgeTools` has `@Tool` but **is not in an autonomous agentic loop** in chat.
+- MCP server exists separately — see [mcp-tools-gateforge.md](mcp-tools-gateforge.md).
 
-## Lineamientos para devs
+## Developer guidelines
 
-1. No enviar secretos de tenant al LLM — redactar en context builder.
-2. Cambios en prompts → actualizar FAQ cache si aplica.
-3. Tests de AI: mockear `MigrationAgent` en unit tests de `MigrationService`.
+1. Do not send tenant secrets to the LLM — redact in context builder.
+2. Prompt changes → update FAQ cache if applicable.
+3. AI tests: mock `MigrationAgent` in `MigrationService` unit tests.

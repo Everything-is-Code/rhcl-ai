@@ -1,14 +1,14 @@
 ---
 name: 3scale-export-schema
-description: Leer, validar o parsear exports de threescale-export schema v1.0. Usar al implementar import offline, visualize, fixtures compartidos, o cambios al contrato manifest.json.
+description: Read, validate, or parse threescale-export schema v1.0 exports. Use for offline import, visualize, shared fixtures, or export contract changes.
 ---
 
 # Export Schema v1.0
 
-## Validación rápida
+## Quick validation
 
-1. Raíz contiene `manifest.json` con `"schema_version": "1.0"`.
-2. Directorios: `products/`, `backends/`, `policies/`; opcional `applications/`, `accounts/`.
+1. Root contains `manifest.json` with `"schema_version": "1.0"`.
+2. Directories: `products/`, `backends/`, `policies/`; optional `applications/`, `accounts/`.
 
 ## manifest.json
 
@@ -25,10 +25,10 @@ description: Leer, validar o parsear exports de threescale-export schema v1.0. U
 }
 ```
 
-## Por producto `{system_name}`
+## Per product `{system_name}`
 
-| Archivo | Origen |
-|---------|--------|
+| File | Source |
+|------|--------|
 | `products/{sn}.yaml` | toolbox `3scale product export` |
 | `products/{sn}/proxy.json` | Admin API |
 | `products/{sn}/policies.json` | Admin API policy chain |
@@ -39,18 +39,18 @@ description: Leer, validar o parsear exports de threescale-export schema v1.0. U
 
 ## Backends
 
-- `backends/{system_name}.json` — uno por backend API.
+- `backends/{system_name}.json` — one per backend API.
 
-## Redacción
+## Redaction
 
-Con `--redact-secrets`: valores `***REDACTED***` en keys como `access_token`, `client_secret`, `api_key`, `user_key`.
+With `--redact-secrets`: values `***REDACTED***` for keys like `access_token`, `client_secret`, `api_key`, `user_key`.
 
-## Fixture de referencia
+## Reference fixture
 
-`3scaleextract/internal/visualize/testdata/export-minimal/` — usar para tests GateForge (INT-5).
+`3scaleextract/internal/visualize/testdata/export-minimal/` — use for GateForge tests (INT-5).
 
-## Código fuente
+## Source code
 
 - Schema: `3scaleextract/internal/output/writer.go`
 - Loader: `3scaleextract/internal/visualize/loader.go`
-- Doc completa: rhcl-ai/docs/architecture/export-schema-v1.md
+- Full doc: rhcl-ai/docs/architecture/export-schema-v1.md

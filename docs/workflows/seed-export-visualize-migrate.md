@@ -1,20 +1,20 @@
 # Workflow: Seed → Export → Visualize → Migrate
 
-Pipeline de validación end-to-end para el programa RHCL.
+End-to-end validation pipeline for the RHCL program.
 
-## Objetivo
+## Goal
 
-Validar que fixtures de lab en 3scale se exportan correctamente y GateForge puede analizarlos (live hoy; offline con INT-2/3).
+Verify lab fixtures in 3scale export correctly and GateForge can analyze them (live today; offline with INT-2/3).
 
-## Script rápido (3scaleextract)
+## Quick script (3scaleextract)
 
 ```bash
 cd 3scaleextract
-source scripts/load-env.sh   # o export THREESCALE_* manualmente
+source scripts/load-env.sh   # or export THREESCALE_* manually
 ./scripts/demo/seed-and-export.sh
 ```
 
-Genera `./export/manifest.json` y árbol completo.
+Produces `./export/manifest.json` and full tree.
 
 ## Visualize
 
@@ -23,19 +23,19 @@ bin/threescale-visualize ./export -o ./report
 open report/index.md
 ```
 
-Revisar:
-- Auth matrix por producto
-- Diagrama Mermaid topology
-- Backend ↔ product refs
+Review:
+- Auth matrix per product
+- Mermaid topology diagram
+- Backend ↔ product references
 
-## GateForge — flujo live (actual)
+## GateForge — live flow (current)
 
-1. Configurar misma URL/token 3scale en GateForge Settings.
-2. Migration Wizard → seleccionar productos `seed_*`.
-3. Estrategia `shared` → Analyze → revisar plan y warnings OIDC.
-4. (Opcional) Apply en cluster lab con Connectivity Link instalado.
+1. Configure the same 3scale URL/token in GateForge Settings.
+2. Migration Wizard → select `seed_*` products.
+3. Strategy `shared` → Analyze → review plan and OIDC warnings.
+4. (Optional) Apply on lab cluster with Connectivity Link installed.
 
-## GateForge — flujo offline (planned INT-2/3)
+## GateForge — offline flow (planned INT-2/3)
 
 ```http
 POST /api/migration/import-export
@@ -44,27 +44,27 @@ Content-Type: multipart/form-data
 file: export.tar.gz   # manifest v1.0 + tree
 ```
 
-Luego wizard continúa con productos parseados sin Admin API.
+Wizard continues with parsed products without Admin API.
 
-## Checklist E2E (INT-6)
+## E2E checklist (INT-6)
 
-- [ ] Seed 4 productos sin error
+- [ ] Seed 4 products without error
 - [ ] Export `incomplete: false`
-- [ ] Visualize report generado
-- [ ] GateForge analyze produce AuthPolicy por auth mode
-- [ ] Warning OIDC si issuer placeholder
-- [ ] `seed_multi_backend` genera HTTPRoute multi-rule (sin kuadrantctl)
+- [ ] Visualize report generated
+- [ ] GateForge analyze produces AuthPolicy per auth mode
+- [ ] OIDC warning when issuer is placeholder
+- [ ] `seed_multi_backend` generates multi-rule HTTPRoute (no kuadrantctl)
 
 ## Troubleshooting
 
-| Problema | Acción |
-|----------|--------|
+| Problem | Action |
+|---------|--------|
 | Toolbox pull failed | `docker login registry.redhat.io` |
-| Export incomplete | Revisar permisos token Admin |
-| GateForge no ve productos | Verificar `THREESCALE_ADMIN_URL` coincide con export |
-| OIDC warning | Esperado si seed usa issuer ficticio |
+| Export incomplete | Check Admin token permissions |
+| GateForge missing products | Verify `THREESCALE_ADMIN_URL` matches export |
+| OIDC warning | Expected when seed uses fictional issuer |
 
-## Referencias
+## References
 
 - [SEED.md](https://github.com/Everything-is-Code/3scaleextract/blob/main/docs/SEED.md)
 - [export-schema-v1.md](../architecture/export-schema-v1.md)

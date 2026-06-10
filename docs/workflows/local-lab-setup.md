@@ -1,6 +1,6 @@
 # Local lab setup
 
-Entorno local para desarrollo RHCL con los tres repos.
+Local environment for RHCL development with all three repos.
 
 ## Workspace
 
@@ -9,16 +9,17 @@ mkdir rhcl && cd rhcl
 git clone https://github.com/Everything-is-Code/3scaleextract.git
 git clone https://github.com/Everything-is-Code/gateforge.git
 git clone https://github.com/Everything-is-Code/rhcl-ai.git
+./rhcl-ai/scripts/setup-rhcl-workspace.sh   # optional: sync .cursor
 ```
 
 ## 3scaleextract
 
-### Prerrequisitos
+### Prerequisites
 
 - Go 1.22+
-- Docker o Podman
-- Imagen toolbox: `registry.redhat.io/3scale-amp2/toolbox-rhel9:3scale2.16`
-- Token Admin API 3scale lab
+- Docker or Podman
+- Toolbox image: `registry.redhat.io/3scale-amp2/toolbox-rhel9:3scale2.16`
+- Lab 3scale Admin API token
 
 ```bash
 docker login registry.redhat.io
@@ -38,16 +39,16 @@ go test ./...
 
 ## GateForge
 
-### Prerrequisitos
+### Prerequisites
 
 - Java 17, Maven 3.9+
 - Node 20+, npm
-- Podman (compose local)
+- Podman (local compose)
 
 ```bash
 cd gateforge
 cp .env.example .env
-# Editar THREESCALE_*, OPENAI/LiteLLM, kubeconfig si aplica
+# Edit THREESCALE_*, OPENAI/LiteLLM, kubeconfig as needed
 ./scripts/local-up.sh
 ```
 
@@ -56,10 +57,10 @@ cp .env.example .env
 
 ## Cursor
 
-Configurar rules y skills antes de desarrollar:
+Configure rules and skills before developing:
 
-1. Seguir **[docs/ai/cursor-setup.md](../ai/cursor-setup.md)** (guía completa).
-2. En Windows, si symlink falla: `.\rhcl-ai\scripts\sync-cursor-config.ps1`
-3. Opcional: copiar `rhcl-ai/templates/rhcl.code-workspace.example` → `rhcl/rhcl.code-workspace` y abrir ese workspace.
+1. Follow **[docs/ai/cursor-setup.md](../ai/cursor-setup.md)** (full guide).
+2. On Windows, if symlink fails: `.\rhcl-ai\scripts\sync-cursor-config.ps1`
+3. Optional: copy `rhcl-ai/templates/rhcl.code-workspace.example` → `rhcl/rhcl.code-workspace`
 
-Ver también [AGENTS.md](../../AGENTS.md).
+See also [AGENTS.md](../../AGENTS.md).

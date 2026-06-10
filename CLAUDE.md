@@ -1,8 +1,10 @@
 # CLAUDE.md
 
-Este archivo orienta a **Claude Code** al trabajar en el programa RHCL.
+Brief guidance for **Claude Code** working in the RHCL program.
 
-**`AGENTS.md` es la fuente de verdad** para todos los agentes (Cursor, Codex, Claude Code, etc.).
-Mantené `AGENTS.md` actualizado cuando cambien convenciones del programa.
+**`AGENTS.md` is the master file** for all coding agents (Cursor, Codex, Claude Code, etc.).
+Keep `AGENTS.md` up to date when program conventions change.
 
-Ver [AGENTS.md](AGENTS.md).
+All agent context (rules, skills, docs) must be **English only** — see Language policy in [AGENTS.md](AGENTS.md).
+
+See [AGENTS.md](AGENTS.md).

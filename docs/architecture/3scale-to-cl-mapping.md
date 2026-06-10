@@ -1,93 +1,93 @@
 # Mapping 3scale → Connectivity Link (Kuadrant)
 
-Referencia para GateForge `MigrationService` y futuro import offline desde export v1.
+Reference for GateForge `MigrationService` and future offline import from export v1.
 
-## Modelo intermedio GateForge
+## GateForge intermediate model
 
 `ThreeScaleProduct` (`gateforge/backend/.../model/ThreeScaleProduct.java`):
 
-| Campo | Origen export v1 |
+| Field | Export v1 source |
 |-------|------------------|
-| `systemName` | Nombre archivo `products/{sn}.yaml` o `proxy.json` |
-| `name` | YAML product metadata o `proxy.json` |
+| `systemName` | `products/{sn}.yaml` filename or `proxy.json` |
+| `name` | YAML product metadata or `proxy.json` |
 | `serviceId` | `proxy.json` → service id |
 | `mappingRules` | `proxy.json` mapping rules |
-| `backendUsages` | `backend_usages.json` + resolución `backends/*.json` |
+| `backendUsages` | `backend_usages.json` + `backends/*.json` resolution |
 | `authentication` | `proxy.json` auth + `oidc_configuration.json` |
 | `applicationPlans` | `application_plans.json` |
 | `applications` | `applications/page-*.json` |
-| `sourceCluster` | Label manual o `admin_url` del manifest |
+| `sourceCluster` | Manual label or manifest `admin_url` |
 
 ## Auth modes
 
-| 3scale auth | Detección | Recurso Kuadrant |
-|-------------|-----------|------------------|
+| 3scale auth | Detection | Kuadrant resource |
+|-------------|-----------|-------------------|
 | API Key (`api_key`, `user_key`) | `proxy.json` auth_type | AuthPolicy `apiKey` selector `app: {systemName}` + APIKey CR |
 | App ID + App Key | `app_id` auth | AuthPolicy apiKey (app credentials) |
-| OIDC | `backend_version: oidc` + oidc config | AuthPolicy `jwt` con `issuerUrl` |
+| OIDC | `backend_version: oidc` + oidc config | AuthPolicy `jwt` with `issuerUrl` |
 
 ### OIDC issuer
 
-- Preferir `oidc_issuer_endpoint` del export/proxy.
-- Si falta: GateForge emite **warning** y usa placeholder `https://sso.example.com/realms/api`.
-- **Acción pre-apply:** configurar issuer real del IdP (Keycloak/RH-SSO).
+- Prefer `oidc_issuer_endpoint` from export/proxy.
+- If missing: GateForge emits **warning** and uses placeholder `https://sso.example.com/realms/api`.
+- **Pre-apply action:** configure real IdP issuer (Keycloak/RH-SSO).
 
-## Policies 3scale → Kuadrant
+## 3scale policies → Kuadrant
 
-GateForge hoy genera un subconjunto; policies 3scale en export son referencia para migración manual o futuras reglas:
+GateForge generates a subset today; 3scale policies in export are reference for manual migration or future rules:
 
-| Policy 3scale (seed) | Estado migración GateForge |
+| 3scale policy (seed) | GateForge migration status |
 |----------------------|----------------------------|
-| `cors` | No generado automáticamente — considerar HTTPRoute filters / Envoy |
-| `jwt_claim_check` | Parcial vía AuthPolicy OIDC |
-| `ip_check` | RateLimitPolicy / futuro AuthorizationPolicy |
-| `edge_limit` | RateLimitPolicy (default 100/60s hoy) |
+| `cors` | Not auto-generated — consider HTTPRoute filters / Envoy |
+| `jwt_claim_check` | Partial via OIDC AuthPolicy |
+| `ip_check` | RateLimitPolicy / future AuthorizationPolicy |
+| `edge_limit` | RateLimitPolicy (default 100/60s today) |
 | `url_rewriting` | HTTPRoute URLRewrite filter (manual) |
-| `apicast` | Implícito en gateway — no migrar como policy |
+| `apicast` | Implicit in gateway — do not migrate as policy |
 
 ## Backends
 
-| Export | Uso en migración |
-|--------|------------------|
-| `backends/{sn}.json` → `private_endpoint` | BackendRef HTTPRoute / ServiceEntry |
-| `backend_usages.json` → path prefix | Rules HTTPRoute por path |
+| Export | Migration use |
+|--------|---------------|
+| `backends/{sn}.json` → `private_endpoint` | HTTPRoute BackendRef / ServiceEntry |
+| `backend_usages.json` → path prefix | HTTPRoute rules by path |
 
-Multi-backend (`seed_multi_backend`): GateForge **no usa kuadrantctl** para HTTPRoute; genera YAML manual con múltiples rules.
+Multi-backend (`seed_multi_backend`): GateForge **does not use kuadrantctl** for HTTPRoute; manual YAML with multiple rules.
 
 ## Gateway strategies
 
-| Strategy | Cuándo usar | Recursos |
-|----------|-------------|----------|
+| Strategy | When to use | Resources |
+|----------|-------------|-----------|
 | `shared` | Default lab | 1 Gateway, N HTTPRoutes |
 | `dual` | Staging + prod 3scale | 2 Gateways |
-| `dedicated` | Aislamiento por producto | Gateway por producto |
+| `dedicated` | Per-product isolation | Gateway per product |
 
-## Recursos generados por producto
+## Resources generated per product
 
 ```
 HTTPRoute          → routing + backend refs
-AuthPolicy         → apiKey o OIDC jwt
-RateLimitPolicy    → límite global (placeholder 100/min)
-APIProduct         → definición API Kuadrant
-APIKey             → credenciales (API Key mode)
+AuthPolicy         → apiKey or OIDC jwt
+RateLimitPolicy    → global limit (placeholder 100/min)
+APIProduct         → Kuadrant API definition
+APIKey             → credentials (API Key mode)
 ```
 
-Labels comunes: `app.kubernetes.io/managed-by: gateforge`, `gateforge.io/product: {systemName}`.
+Common labels: `app.kubernetes.io/managed-by: gateforge`, `gateforge.io/product: {systemName}`.
 
-## Productos seed de referencia
+## Reference seed products
 
-| system_name | Auth | Backends | Policies seed |
+| system_name | Auth | Backends | Seed policies |
 |-------------|------|----------|---------------|
 | `seed_api_key` | API Key | 1 | cors |
 | `seed_oidc` | OIDC | 1 | jwt_claim_check, cors |
 | `seed_app_id` | App ID | 2 | ip_check, cors |
 | `seed_multi_backend` | API Key | 3 | edge_limit, url_rewriting |
 
-## Criterio de aceptación integración (INT-2/3)
+## Integration acceptance criteria (INT-2/3)
 
-Dado export de productos seed con `--redact-secrets`, GateForge `analyze()` sin Admin API produce plan equivalente al flujo live para auth mode y número de recursos por kind.
+Given seed product export with `--redact-secrets`, GateForge `analyze()` without Admin API produces a plan equivalent to the live flow for auth mode and resource count by kind.
 
-## Referencias código
+## Code references
 
 - `MigrationService.buildAuthPolicy()` / `buildRateLimitPolicy()`
 - `ThreeScaleAuthMode` resolver

@@ -1,35 +1,34 @@
 ---
 name: pr-review-rhcl
-description: Revisar PRs del programa RHCL (3scaleextract, gateforge). Usar en code review, antes de merge, o cuando el usuario pide revisar un PR del equipo de migración 3scale a Connectivity Link.
+description: Review PRs for the RHCL program (3scaleextract, gateforge). Use for code review, before merge, or when reviewing 3scale to Connectivity Link migration PRs.
 ---
 
 # PR Review — RHCL
 
-## Checklist obligatorio
+## Required checklist
 
-- [ ] **Tests**: lógica nueva o cambiada tiene tests; CI los ejecuta (no `-DskipTests`).
-- [ ] **Secretos**: no hay tokens, kubeconfigs, client secrets en diff ni fixtures sin redactar.
-- [ ] **Scope**: el PR resuelve un issue referenciado (EXT-*, GF-*, INT-*).
-- [ ] **Export schema**: si toca formato export/import, actualiza rhcl-ai `export-schema-v1.md`.
-- [ ] **Breaking changes**: documentados en PR body y en docs si aplica.
+- [ ] **Tests**: new or changed logic has tests; CI runs them (no `-DskipTests`).
+- [ ] **Secrets**: no tokens, kubeconfigs, or OIDC client secrets in diff or unredacted fixtures.
+- [ ] **Scope**: PR resolves a referenced issue (EXT-*, GF-*, INT-*).
+- [ ] **Export schema**: if export/import format changes, update rhcl-ai `export-schema-v1.md`.
+- [ ] **Language**: PR description, docs, and new comments in English.
+- [ ] **Breaking changes**: documented in PR body and docs when applicable.
 
-## Por repo
+## By repo
 
 ### 3scaleextract
-- `go test ./...` pasa localmente.
-- Seed/export no rompe `schema_version: "1.0"`.
-- Errores HTTP del Admin API manejados explícitamente.
+- `go test ./...` passes locally.
+- Seed/export does not break `schema_version: "1.0"`.
+- Admin API HTTP errors handled explicitly.
 
 ### gateforge
-- `mvn test` pasa en `backend/`.
-- Cambios en `MigrationService` incluyen casos OIDC placeholder warning.
-- Frontend: specs no obsoletos; `ApiService` mockeado en tests de componentes.
+- `mvn test` passes in `backend/`.
+- `MigrationService` changes include OIDC placeholder warning cases.
+- Frontend: specs not stale; `ApiService` mocked in component tests.
 
-## Respuesta de review
+## Review response format
 
-Estructura sugerida:
-
-1. **Resumen** (1-2 oraciones)
-2. **Bloqueantes** (must fix)
-3. **Sugerencias** (nice to have)
-4. **Veredicto**: Approve / Request changes
+1. **Summary** (1–2 sentences)
+2. **Blockers** (must fix)
+3. **Suggestions** (nice to have)
+4. **Verdict**: Approve / Request changes

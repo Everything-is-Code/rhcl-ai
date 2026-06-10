@@ -1,49 +1,49 @@
 ---
 name: gateforge-migration
-description: Trabajar en GateForge MigrationService, kuadrantctl, estrategias gateway shared/dual/dedicated, AuthPolicy, RateLimitPolicy, HTTPRoute. Usar al modificar migración 3scale a Kuadrant en gateforge.
+description: Work on GateForge MigrationService, kuadrantctl, gateway strategies shared/dual/dedicated, AuthPolicy, RateLimitPolicy, HTTPRoute. Use when changing 3scale to Kuadrant migration in gateforge.
 ---
 
 # GateForge Migration
 
-## Punto de entrada
+## Entry point
 
-- `MigrationService.analyze(gatewayStrategy, productNames, targetClusterId)` — genera `MigrationPlan`.
-- Productos desde `ThreeScaleService.listProducts()` o (futuro) import offline.
+- `MigrationService.analyze(gatewayStrategy, productNames, targetClusterId)` — produces `MigrationPlan`.
+- Products from `ThreeScaleService.listProducts()` or (future) offline import.
 
-## Estrategias gateway
+## Gateway strategies
 
-| Strategy | Comportamiento |
-|----------|----------------|
-| `shared` | Un gateway compartido; HTTPRoutes por producto |
-| `dual` | Staging + production separados |
-| `dedicated` | Gateway dedicado por producto |
+| Strategy | Behavior |
+|----------|----------|
+| `shared` | Shared gateway; HTTPRoutes per product |
+| `dual` | Separate staging + production |
+| `dedicated` | Dedicated gateway per product |
 
-## Recursos Kuadrant generados
+## Generated Kuadrant resources
 
-Por producto típico:
+Per typical product:
 - `HTTPRoute` (Gateway API)
-- `AuthPolicy` — apiKey o OIDC jwt
-- `RateLimitPolicy` — límite global default 100/60s
-- `APIProduct` + `APIKey` según auth mode
+- `AuthPolicy` — apiKey or OIDC jwt
+- `RateLimitPolicy` — default global limit 100/60s
+- `APIProduct` + `APIKey` per auth mode
 
 ## kuadrantctl
 
-- Invocado vía `KuadrantCtlService` para HTTPRoute cuando producto tiene un solo backend.
-- Multi-backend: skip kuadrantctl HTTPRoute; fallback YAML manual.
+- Invoked via `KuadrantCtlService` for HTTPRoute when product has a single backend.
+- Multi-backend: skip kuadrantctl HTTPRoute; manual YAML fallback.
 
-## Warnings conocidos
+## Known warnings
 
-- OIDC sin `oidc_issuer_endpoint`: AuthPolicy usa issuer placeholder — warning en plan.
-- Verificar issuer real antes de `apply`.
+- OIDC without `oidc_issuer_endpoint`: AuthPolicy uses placeholder issuer — warning in plan.
+- Verify real issuer before `apply`.
 
-## Tests a escribir (GF-1)
+## Tests to write (GF-1)
 
-Mock `ThreeScaleService` → llamar `analyze()` → assert:
-- Recursos generados por kind
-- Warnings OIDC cuando falta issuer
-- Estrategia `dedicated` vs `shared`
+Mock `ThreeScaleService` → call `analyze()` → assert:
+- Generated resources by kind
+- OIDC warnings when issuer missing
+- `dedicated` vs `shared` strategy differences
 
-## Referencias
+## References
 
 - `gateforge/backend/.../MigrationService.java`
 - `gateforge/backend/.../model/ThreeScaleProduct.java`

@@ -1,43 +1,47 @@
-# Agent governance — prácticas RHCL
+# Agent governance — RHCL practices
 
-Qué rescatamos de repos maduros con desarrollo **agent-first** (referencia: `lock_code_manager`) y qué adaptamos al programa RHCL.
+What we adopt from mature **agent-first** repos (reference: `lock_code_manager`) and how we adapt it for RHCL.
 
-## Qué rescatamos
+**Language:** All agent-facing content in rhcl-ai is **English only**. Sibling product repos must follow the same policy (see tracking issue for 3scaleextract Spanish README).
 
-| Práctica | lock_code_manager | RHCL (rhcl-ai) |
+## What we adopt
+
+| Practice | lock_code_manager | RHCL (rhcl-ai) |
 |----------|-------------------|----------------|
-| **AGENTS.md maestro** | Guía única para todos los agentes | [AGENTS.md](../../AGENTS.md) |
-| **CLAUDE.md delgado** | Apunta a AGENTS.md | [CLAUDE.md](../../CLAUDE.md) |
-| **Reglas operativas** | "Run pytest before handback", pre-commit | Tests por stack antes de entregar (`go test`, `mvn test`) |
-| **Git conventions** | No amend post-PR, tests con código | Igual en AGENTS.md |
-| **Workspace multi-repo** | `../home-assistant/`, `../frontend/` | `rhcl/` con 3scaleextract, gateforge, rhcl-ai |
-| **Script setup** | `scripts/setup` (venv, hooks, yarn) | [setup-rhcl-workspace.sh](../setup-rhcl-workspace.sh) |
-| **PR template estructurado** | Tipo de cambio + breaking change | [pull_request_template.md](../../templates/github/.github/pull_request_template.md) |
-| **Issues sin blank** | `blank_issues_enabled: false` | [config.yml](../../templates/github/.github/ISSUE_TEMPLATE/config.yml) |
-| **Arquitectura en AGENTS** | Componentes, data flow, patterns | Resumen + links a `docs/architecture/` |
-| **Testing philosophy** | "Mock at the boundary" | Tabla por repo en AGENTS.md |
+| **Master AGENTS.md** | Single guide for all agents | [AGENTS.md](../../AGENTS.md) |
+| **Thin CLAUDE.md** | Points to AGENTS.md | [CLAUDE.md](../../CLAUDE.md) |
+| **Operational rules** | "Run pytest before handback", pre-commit | Per-stack tests before handback (`go test`, `mvn test`) |
+| **Git conventions** | No amend post-PR, tests with code | Same in AGENTS.md |
+| **Multi-repo workspace** | `../home-assistant/`, `../frontend/` | `rhcl/` with 3scaleextract, gateforge, rhcl-ai |
+| **Setup script** | `scripts/setup` | [setup-rhcl-workspace.sh](../setup-rhcl-workspace.sh) |
+| **Structured PR template** | Change type + breaking change | [pull_request_template.md](../../templates/github/.github/pull_request_template.md) |
+| **No blank issues** | `blank_issues_enabled: false` | [config.yml](../../templates/github/.github/ISSUE_TEMPLATE/config.yml) |
+| **Architecture in AGENTS** | Components, data flow, patterns | Summary + links to `docs/architecture/` |
+| **Testing philosophy** | "Mock at the boundary" | Per-repo table in AGENTS.md |
+| **English-only agent context** | Implicit in LCM | Explicit policy in AGENTS.md + rules |
 
-## Qué no copiamos (aún)
+## What we do not copy (yet)
 
-| Práctica LCM | Por qué no aplica igual en RHCL |
-|--------------|----------------------------------|
-| **pre-commit / prek** | Tres stacks distintos (Go, Java, TS); CI por repo |
-| **release-drafter + auto-merge** | rhcl-ai es docs; releases en 3scaleextract/gateforge por separado |
-| **labeler automático por archivos** | Útil en gateforge/3scaleextract; backlog opcional post-M1 |
-| **Codecov + mypy + ruff matrix** | Específico Python; gateforge usa Maven, 3scaleextract golangci-lint (EXT-4) |
-| **Dependabot** | Recomendable después en cada repo de código |
+| LCM practice | Why not identical in RHCL |
+|--------------|---------------------------|
+| **pre-commit / prek** | Three stacks (Go, Java, TS); CI per repo |
+| **release-drafter + auto-merge** | rhcl-ai is docs; releases in 3scaleextract/gateforge separately |
+| **File-based labeler** | Useful in gateforge/3scaleextract; optional post-M1 |
+| **Codecov + mypy matrix** | Python-specific; gateforge uses Maven, 3scaleextract golangci-lint (EXT-4) |
+| **Dependabot** | Recommended later per code repo |
 
-## Roadmap opcional (post-M1)
+## Optional roadmap (post-M1)
 
-1. **labeler.yml** en gateforge y 3scaleextract (`java`, `go`, `frontend`, `github-config`)
-2. **Workflow reusable** `python-checks`-style → `go-checks.yml` / `java-checks.yml` compartidos desde rhcl-ai templates
-3. **Dependabot** en los tres repos
-4. **pre-commit** mínimo en rhcl-ai (markdownlint, yamllint en templates)
+1. **labeler.yml** in gateforge and 3scaleextract (`java`, `go`, `frontend`, `github-config`)
+2. Reusable workflows from rhcl-ai templates (`go-checks.yml`, `java-checks.yml`)
+3. **Dependabot** in all three repos
+4. Minimal **pre-commit** in rhcl-ai (markdownlint, yamllint on templates)
 
-## Mantenimiento
+## Maintenance
 
-Cuando el PO cambie convenciones:
+When PO changes conventions:
 
-1. Actualizar `AGENTS.md` (fuente de verdad)
-2. Sincronizar rules Cursor si aplica (`.cursor/rules/rhcl-global.mdc`)
-3. Comunicar al equipo: `git pull` en rhcl-ai + `./scripts/sync-cursor-config.sh`
+1. Update `AGENTS.md` (source of truth)
+2. Sync Cursor rules (`.cursor/rules/rhcl-global.mdc`)
+3. Notify team: `git pull` in rhcl-ai + `./scripts/sync-cursor-config.sh`
+4. Keep all changes in **English**

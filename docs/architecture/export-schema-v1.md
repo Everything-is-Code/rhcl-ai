@@ -1,20 +1,20 @@
 # Export schema v1.0
 
-Contrato del directorio generado por `threescale-export` en [3scaleextract](https://github.com/Everything-is-Code/3scaleextract).
+Contract for the directory produced by `threescale-export` in [3scaleextract](https://github.com/Everything-is-Code/3scaleextract).
 
-**Schema version:** `1.0` (constante `output.SchemaVersion` en `internal/output/writer.go`).
+**Schema version:** `1.0` (constant `output.SchemaVersion` in `internal/output/writer.go`).
 
-## Estructura de directorios
+## Directory structure
 
 ```
 export/
 ├── manifest.json
 ├── products/
-│   ├── {system_name}.yaml              # toolbox Red Hat
+│   ├── {system_name}.yaml              # Red Hat toolbox
 │   └── {system_name}/
 │       ├── proxy.json
 │       ├── policies.json
-│       ├── oidc_configuration.json     # opcional (OIDC products)
+│       ├── oidc_configuration.json     # optional (OIDC products)
 │       ├── application_plans.json
 │       ├── backend_usages.json
 │       └── metrics.json
@@ -22,26 +22,26 @@ export/
 │   └── {system_name}.json
 ├── policies/
 │   └── catalog.json
-├── applications/                       # opcional (--include-applications)
+├── applications/                       # optional (--include-applications)
 │   └── page-{n}.json
-└── accounts/                           # opcional (deduplicado por account_id)
+└── accounts/                           # optional (deduplicated by account_id)
     └── {id}.json
 ```
 
 ## manifest.json
 
-| Campo | Tipo | Descripción |
+| Field | Type | Description |
 |-------|------|-------------|
-| `schema_version` | string | Siempre `"1.0"` |
+| `schema_version` | string | Always `"1.0"` |
 | `exported_at` | string | RFC3339 UTC |
-| `admin_url` | string | URL Admin Portal usada en export |
-| `product_count` | int | Número de services exportados |
-| `backend_count` | int | Número de backends |
-| `application_count` | int | Solo si `include_applications` |
-| `include_applications` | bool | Flag del export |
-| `incomplete` | bool | `true` si hubo error parcial |
+| `admin_url` | string | Admin Portal URL used for export |
+| `product_count` | int | Number of exported services |
+| `backend_count` | int | Number of backends |
+| `application_count` | int | Only if `include_applications` |
+| `include_applications` | bool | Export flag |
+| `incomplete` | bool | `true` if partial failure occurred |
 
-### Ejemplo
+### Example
 
 ```json
 {
@@ -56,11 +56,11 @@ export/
 }
 ```
 
-## Origen de cada artefacto
+## Origin of each artifact
 
-| Artefacto | Fuente |
-|-----------|--------|
-| `products/*.yaml` | Contenedor toolbox: `3scale product export` |
+| Artifact | Source |
+|----------|--------|
+| `products/*.yaml` | Toolbox container: `3scale product export` |
 | `products/*/proxy.json` | Admin API GET proxy config |
 | `products/*/policies.json` | Admin API policy chain |
 | `products/*/oidc_configuration.json` | Admin API OIDC config |
@@ -69,36 +69,36 @@ export/
 | `products/*/metrics.json` | Admin API metrics |
 | `backends/*.json` | Admin API backend_apis |
 | `policies/catalog.json` | Admin API policy registry |
-| `applications/page-*.json` | Admin API paginado |
-| `accounts/{id}.json` | Admin API account por application |
+| `applications/page-*.json` | Admin API paginated |
+| `accounts/{id}.json` | Admin API account per application |
 
-## Comportamiento en errores
+## Error behavior
 
-- Endpoints opcionales por producto que fallan en GET se **omiten silenciosamente** (export continúa).
-- Error en backend catalog o service principal → `incomplete: true` y error retornado.
-- `--redact-secrets` post-procesa todos `.json` y `.yaml` en el árbol.
+- Optional per-product GET failures are **silently skipped** (export continues).
+- Backend catalog or primary service error → `incomplete: true` and error returned.
+- `--redact-secrets` post-processes all `.json` and `.yaml` in the tree.
 
-## Claves redactadas
+## Redacted keys
 
-`access_token`, `client_secret`, `secret`, `api_key`, `user_key`, `app_key`, `provider_key` → valor `***REDACTED***`.
+`access_token`, `client_secret`, `secret`, `api_key`, `user_key`, `app_key`, `provider_key` → value `***REDACTED***`.
 
-## Validación (GateForge import)
+## Validation (GateForge import)
 
-1. Leer `manifest.json`; rechazar si `schema_version != "1.0"`.
-2. Verificar `products/` no vacío si `product_count > 0`.
-3. Por cada `{system_name}.yaml`, exigir al menos `proxy.json` en subdirectorio homónimo.
-4. Resolver backends vía `backends/*.json` + `backend_usages.json`.
+1. Read `manifest.json`; reject if `schema_version != "1.0"`.
+2. Verify `products/` is non-empty when `product_count > 0`.
+3. For each `{system_name}.yaml`, require at least `proxy.json` in matching subdirectory.
+4. Resolve backends via `backends/*.json` + `backend_usages.json`.
 
-## Fixture de test
+## Test fixture
 
-Path canónico: `3scaleextract/internal/visualize/testdata/export-minimal/`
+Canonical path: `3scaleextract/internal/visualize/testdata/export-minimal/`
 
-Usar como tarball versionado para tests GateForge (issue INT-5).
+Use as versioned tarball for GateForge tests (issue INT-5).
 
-## Evolución del schema
+## Schema evolution
 
-Cambios breaking requieren:
-- Incrementar `schema_version` (ej. `1.1` o `2.0`)
-- Actualizar este documento
-- Actualizar `internal/visualize/loader.go` validación
-- Tests en ambos repos
+Breaking changes require:
+- Increment `schema_version` (e.g. `1.1` or `2.0`)
+- Update this document
+- Update `internal/visualize/loader.go` validation
+- Tests in both repos

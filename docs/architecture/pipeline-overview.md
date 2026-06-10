@@ -1,8 +1,8 @@
 # Pipeline overview — RHCL
 
-Programa de migración de **Red Hat 3scale API Management** a **Red Hat Connectivity Link** (Kuadrant en OpenShift).
+**Red Hat 3scale API Management** to **Red Hat Connectivity Link** (Kuadrant on OpenShift) migration program.
 
-## Diagrama
+## Diagram
 
 ```mermaid
 flowchart TB
@@ -16,7 +16,7 @@ flowchart TB
         Viz[threescale-visualize]
     end
 
-    subgraph artifact [Artefacto offline]
+    subgraph artifact [Offline artifact]
         Manifest[manifest.json v1.0]
         Files[products/ backends/ applications/]
     end
@@ -47,10 +47,10 @@ flowchart TB
     Apply --> CL
 ```
 
-## Fases del producto GateForge
+## GateForge product phases
 
-| Phase | Capacidad |
-|-------|-----------|
+| Phase | Capability |
+|-------|------------|
 | 1 | Multi-source 3scale Admin API |
 | 2 | Multi-cluster target (ArgoCD discovery) |
 | 3 | Hub-spoke persistence (PostgreSQL) |
@@ -58,16 +58,16 @@ flowchart TB
 | 5 | Developer Hub plugins |
 | 6 | APICast discovery → Istio/CL mapping |
 
-## Rol de cada repo
+## Role of each repo
 
-| Repo | Entrada | Salida |
-|------|---------|--------|
-| 3scaleextract | Credenciales Admin API | Directorio `export/` + Markdown report |
-| gateforge | Productos 3scale (live o export) | YAML Kuadrant aplicado en cluster |
-| rhcl-ai | — | Docs, skills, templates, contratos |
+| Repo | Input | Output |
+|------|-------|--------|
+| 3scaleextract | Admin API credentials | `export/` directory + Markdown report |
+| gateforge | 3scale products (live or export) | Kuadrant YAML applied to cluster |
+| rhcl-ai | — | Docs, skills, templates, contracts |
 
-## Milestones PO
+## PO milestones
 
-1. **M1** — Tests + CI en ambos repos
-2. **M2** — Import offline export v1 en GateForge
-3. **M3** — E2E lab automatizado (seed → export → analyze)
+1. **M1** — Tests + CI in both code repos
+2. **M2** — Offline export v1 import in GateForge
+3. **M3** — Automated E2E lab (seed → export → analyze)

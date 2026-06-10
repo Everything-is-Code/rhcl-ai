@@ -1,21 +1,25 @@
 # Contributing to rhcl-ai
 
-## Propósito
+## Purpose
 
-Este repo es la **fuente de verdad** para contexto AI, documentación transversal y templates del programa RHCL.
+This repo is the **source of truth** for AI context, cross-cutting documentation, and templates for the RHCL program.
 
-## Cambios esperados
+## Language
 
-- Docs de arquitectura y contratos (export schema, mapping)
-- Cursor rules y skills
-- Templates GitHub para copiar a `3scaleextract` y `gateforge`
+**English only** for AGENTS.md, rules, skills, docs, templates, and issue/PR bodies in this repo.
 
-## Código de producto
+## Expected changes
 
-La implementación vive en los otros repos. No duplicar lógica de negocio aquí salvo scripts de demo/documentación.
+- Architecture docs and contracts (export schema, mapping)
+- Cursor rules and skills
+- GitHub templates to copy into `3scaleextract` and `gateforge`
 
-## PRs
+## Product code
 
-Usar [pull_request_template.md](templates/github/.github/pull_request_template.md).
+Implementation lives in the other repos. Do not duplicate business logic here except demo/documentation scripts.
 
-PO revisa con skill `pr-review-rhcl`.
+## Pull requests
+
+Use [pull_request_template.md](templates/github/.github/pull_request_template.md).
+
+PO reviews with skill `pr-review-rhcl`.

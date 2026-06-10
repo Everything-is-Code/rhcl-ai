@@ -1,79 +1,81 @@
-# RHCL AI — Contexto, skills y lineamientos
+# RHCL AI — Context, skills, and guidelines
 
-Repositorio central del programa **Red Hat Connectivity Link (RHCL)**: migración de **3scale API Management** a **Connectivity Link (Kuadrant)**.
+Central repository for the **Red Hat Connectivity Link (RHCL)** program: **3scale API Management** to **Connectivity Link (Kuadrant)** migration.
 
-## Ecosistema
+**Language:** All agent context, rules, skills, and docs in this repo are **English only**.
 
-| Repo | Rol |
+## Ecosystem
+
+| Repo | Role |
 |------|-----|
-| [3scaleextract](https://github.com/Everything-is-Code/3scaleextract) | Export híbrido, seed de lab, visualize |
-| [gateforge](https://github.com/Everything-is-Code/gateforge) | Plataforma de migración (Quarkus + Angular) |
-| **rhcl-ai** (este repo) | Docs transversales, Cursor rules/skills, templates GitHub |
+| [3scaleextract](https://github.com/Everything-is-Code/3scaleextract) | Hybrid export, lab seed, visualize |
+| [gateforge](https://github.com/Everything-is-Code/gateforge) | Migration platform (Quarkus + Angular) |
+| **rhcl-ai** (this repo) | Cross-cutting docs, Cursor rules/skills, GitHub templates |
 
-## Layout del workspace recomendado
+## Recommended workspace layout
 
 ```
 rhcl/
 ├── 3scaleextract/
 ├── gateforge/
-└── rhcl-ai/          ← este repo
+└── rhcl-ai/          ← this repo
 ```
 
-## Uso con Cursor
+## Cursor setup
 
-**Guía completa:** [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md)
+**Full guide:** [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md)
 
-Resumen:
+Summary:
 
-1. Clonar los tres repos bajo un directorio `rhcl/`.
-2. Enlazar o copiar `.cursor` desde este repo a la raíz del workspace:
+1. Clone all three repos under a `rhcl/` directory.
+2. Link or copy `.cursor` from this repo to the workspace root:
    ```bash
    cd rhcl && ln -s rhcl-ai/.cursor .cursor
-   # Windows / sin symlink: ./rhcl-ai/scripts/sync-cursor-config.sh
+   # Windows / no symlink: ./rhcl-ai/scripts/sync-cursor-config.sh
    ```
-3. Abrir la carpeta **`rhcl/`** en Cursor (no un subrepo suelto).
-4. Verificar rules en **Settings → Rules** (`rhcl-global`, `gateforge-java`, `3scaleextract-go`).
+3. Open the **`rhcl/`** folder in Cursor (not a single subrepo).
+4. Verify rules in **Settings → Rules** (`rhcl-global`, `gateforge-java`, `3scaleextract-go`).
 
-Ver [AGENTS.md](AGENTS.md) (guía maestra para agentes) y [CLAUDE.md](CLAUDE.md) (Claude Code).
+See [AGENTS.md](AGENTS.md) (master agent guide) and [CLAUDE.md](CLAUDE.md) (Claude Code).
 
-Setup completo del workspace:
+Full workspace bootstrap:
 
 ```bash
 git clone https://github.com/Everything-is-Code/rhcl-ai.git
 ./rhcl-ai/scripts/setup-rhcl-workspace.sh
 ```
 
-## Documentación
+## Documentation
 
-| Área | Path |
+| Area | Path |
 |------|------|
-| Pipeline general | [docs/architecture/pipeline-overview.md](docs/architecture/pipeline-overview.md) |
-| Contrato export v1 | [docs/architecture/export-schema-v1.md](docs/architecture/export-schema-v1.md) |
-| Mapping 3scale → CL | [docs/architecture/3scale-to-cl-mapping.md](docs/architecture/3scale-to-cl-mapping.md) |
-| **Configurar Cursor** | [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) |
+| Pipeline overview | [docs/architecture/pipeline-overview.md](docs/architecture/pipeline-overview.md) |
+| Export contract v1 | [docs/architecture/export-schema-v1.md](docs/architecture/export-schema-v1.md) |
+| 3scale → CL mapping | [docs/architecture/3scale-to-cl-mapping.md](docs/architecture/3scale-to-cl-mapping.md) |
+| **Cursor setup** | [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) |
 | **Agent governance** | [docs/ai/agent-governance.md](docs/ai/agent-governance.md) |
 | LangChain4j / AI | [docs/ai/gateforge-langchain4j.md](docs/ai/gateforge-langchain4j.md) |
 | MCP tools | [docs/ai/mcp-tools-gateforge.md](docs/ai/mcp-tools-gateforge.md) |
-| Lab local | [docs/workflows/local-lab-setup.md](docs/workflows/local-lab-setup.md) |
-| Pipeline seed → migrate | [docs/workflows/seed-export-visualize-migrate.md](docs/workflows/seed-export-visualize-migrate.md) |
+| Local lab | [docs/workflows/local-lab-setup.md](docs/workflows/local-lab-setup.md) |
+| Seed → migrate pipeline | [docs/workflows/seed-export-visualize-migrate.md](docs/workflows/seed-export-visualize-migrate.md) |
 
-## Templates GitHub
+## GitHub templates
 
-Copiar desde [`templates/github/`](templates/github/) a cada repo:
+Copy from [`templates/github/`](templates/github/) into each repo:
 
 ```bash
 cp -r templates/github/.github ../3scaleextract/
 cp -r templates/github/.github ../gateforge/
 ```
 
-## Milestones del programa
+## Program milestones
 
-| Milestone | Objetivo |
-|-----------|----------|
-| **M1 — Test foundation** | CI corre tests; cobertura mínima en paths críticos |
-| **M2 — Integration offline** | GateForge importa export v1 |
-| **M3 — E2E lab** | Pipeline seed→export→migrate documentado y automatizable |
+| Milestone | Goal |
+|-----------|------|
+| **M1 — Test foundation** | CI runs tests; minimum coverage on critical paths |
+| **M2 — Integration offline** | GateForge imports export v1 |
+| **M3 — E2E lab** | Documented and automatable seed→export→migrate pipeline |
 
-## Licencia
+## License
 
-Apache 2.0 — ver [LICENSE](LICENSE).
+Apache 2.0 — see [LICENSE](LICENSE).

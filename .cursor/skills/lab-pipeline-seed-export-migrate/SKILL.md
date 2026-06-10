@@ -1,17 +1,17 @@
 ---
 name: lab-pipeline-seed-export-migrate
-description: Ejecutar pipeline de lab seed → export → visualize → migrate GateForge. Usar para demos, E2E, validación de fixtures seed_api_key, seed_oidc, seed_app_id, seed_multi_backend.
+description: Run lab pipeline seed, export, visualize, and GateForge migrate. Use for demos, E2E, and validating seed_api_key, seed_oidc, seed_app_id, seed_multi_backend fixtures.
 ---
 
 # Lab Pipeline: Seed → Export → Visualize → Migrate
 
-## Prerrequisitos
+## Prerequisites
 
-- Tenant 3scale de lab con Admin API token.
-- Docker o Podman + imagen toolbox Red Hat.
+- Lab 3scale tenant with Admin API token.
+- Docker or Podman + Red Hat toolbox image.
 - Variables: `THREESCALE_ADMIN_URL`, `THREESCALE_ACCESS_TOKEN`.
 
-## Paso 1 — Seed (3scaleextract)
+## Step 1 — Seed (3scaleextract)
 
 ```bash
 cd 3scaleextract
@@ -22,42 +22,42 @@ bin/threescale-seed --skip-existing
 
 Fixtures: `seed_api_key`, `seed_oidc`, `seed_app_id`, `seed_multi_backend`.
 
-## Paso 2 — Export
+## Step 2 — Export
 
 ```bash
 go build -o bin/threescale-export ./cmd/threescale-export
 bin/threescale-export --output ./export --include-applications --redact-secrets
 ```
 
-Script todo-en-uno: `scripts/demo/seed-and-export.sh`
+All-in-one script: `scripts/demo/seed-and-export.sh`
 
-## Paso 3 — Visualize
+## Step 3 — Visualize
 
 ```bash
 go build -o bin/threescale-visualize ./cmd/threescale-visualize
 bin/threescale-visualize ./export -o ./report
 ```
 
-## Paso 4 — GateForge (live hoy / offline futuro)
+## Step 4 — GateForge (live today / offline future)
 
-**Hoy:** GateForge descubre productos vía Admin API configurada en Settings.
+**Today:** GateForge discovers products via Admin API configured in Settings.
 
-**Futuro (INT-2/3):** `POST /api/migration/import-export` con directorio export v1.
+**Future (INT-2/3):** `POST /api/migration/import-export` with export v1 directory.
 
 **Local GateForge:**
 
 ```bash
 cd gateforge
-cp .env.example .env   # configurar 3scale + cluster
+cp .env.example .env   # configure 3scale + cluster
 ./scripts/local-up.sh  # Podman compose
 # UI http://localhost:4200 → Migration Wizard
 ```
 
-## Criterio E2E (INT-6)
+## E2E criteria (INT-6)
 
-Para cada producto seed, `analyze()` produce plan con AuthPolicy coherente con auth mode del export.
+For each seed product, `analyze()` produces a plan with AuthPolicy matching export auth mode.
 
-## Referencias
+## References
 
 - rhcl-ai/docs/workflows/seed-export-visualize-migrate.md
 - rhcl-ai/docs/workflows/local-lab-setup.md
