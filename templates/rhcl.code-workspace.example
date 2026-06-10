@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "name": "3scaleextract",
+      "path": "./3scaleextract"
+    },
+    {
+      "name": "gateforge",
+      "path": "./gateforge"
+    },
+    {
+      "name": "rhcl-ai",
+      "path": "./rhcl-ai"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true
+    }
+  },
+  "extensions": {
+    "recommendations": []
+  }
+}

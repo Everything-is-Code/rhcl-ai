@@ -34,6 +34,14 @@ Eres un agente que trabaja en el programa de migración **3scale → Connectivit
 | `3scale-export-schema` | Parser export, visualize, contrato v1 |
 | `pr-review-rhcl` | Revisión de PRs del equipo |
 
+## Configurar Cursor (devs)
+
+Antes de codear, configurá rules y skills desde este repo. Guía paso a paso:
+
+**[docs/ai/cursor-setup.md](docs/ai/cursor-setup.md)**
+
+Resumen: workspace `rhcl/` con los 3 repos → enlace `rhcl-ai/.cursor` → abrir `rhcl/` en Cursor.
+
 ## Flujo de trabajo coder
 
 1. Tomar issue con label `area/*` y milestone asignado.

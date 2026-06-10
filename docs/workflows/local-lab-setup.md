@@ -56,6 +56,10 @@ cp .env.example .env
 
 ## Cursor
 
-Apuntar rules/skills desde `rhcl-ai/.cursor/` o copiar al workspace root.
+Configurar rules y skills antes de desarrollar:
 
-Ver [AGENTS.md](../../AGENTS.md).
+1. Seguir **[docs/ai/cursor-setup.md](../ai/cursor-setup.md)** (guía completa).
+2. En Windows, si symlink falla: `.\rhcl-ai\scripts\sync-cursor-config.ps1`
+3. Opcional: copiar `rhcl-ai/templates/rhcl.code-workspace.example` → `rhcl/rhcl.code-workspace` y abrir ese workspace.
+
+Ver también [AGENTS.md](../../AGENTS.md).

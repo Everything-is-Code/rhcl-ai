@@ -21,11 +21,20 @@ rhcl/
 
 ## Uso con Cursor
 
-1. Clonar los tres repos en el mismo workspace.
-2. Copiar o enlazar rules desde [`.cursor/rules/`](.cursor/rules/) (o apuntar Cursor al directorio del repo).
-3. Los skills en [`.cursor/skills/`](.cursor/skills/) se invocan automáticamente según su `description` en el frontmatter.
+**Guía completa:** [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md)
 
-Ver [AGENTS.md](AGENTS.md) para instrucciones globales de agentes.
+Resumen:
+
+1. Clonar los tres repos bajo un directorio `rhcl/`.
+2. Enlazar o copiar `.cursor` desde este repo a la raíz del workspace:
+   ```bash
+   cd rhcl && ln -s rhcl-ai/.cursor .cursor
+   # Windows / sin symlink: ./rhcl-ai/scripts/sync-cursor-config.sh
+   ```
+3. Abrir la carpeta **`rhcl/`** en Cursor (no un subrepo suelto).
+4. Verificar rules en **Settings → Rules** (`rhcl-global`, `gateforge-java`, `3scaleextract-go`).
+
+Ver también [AGENTS.md](AGENTS.md) para instrucciones globales de agentes.
 
 ## Documentación
 
@@ -34,6 +43,7 @@ Ver [AGENTS.md](AGENTS.md) para instrucciones globales de agentes.
 | Pipeline general | [docs/architecture/pipeline-overview.md](docs/architecture/pipeline-overview.md) |
 | Contrato export v1 | [docs/architecture/export-schema-v1.md](docs/architecture/export-schema-v1.md) |
 | Mapping 3scale → CL | [docs/architecture/3scale-to-cl-mapping.md](docs/architecture/3scale-to-cl-mapping.md) |
+| **Configurar Cursor** | [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) |
 | LangChain4j / AI | [docs/ai/gateforge-langchain4j.md](docs/ai/gateforge-langchain4j.md) |
 | MCP tools | [docs/ai/mcp-tools-gateforge.md](docs/ai/mcp-tools-gateforge.md) |
 | Lab local | [docs/workflows/local-lab-setup.md](docs/workflows/local-lab-setup.md) |
