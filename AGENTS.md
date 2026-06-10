@@ -34,9 +34,11 @@ User-facing product READMEs in sibling repos must also be English — track via 
 - **Export contract changes** (`schema_version`): update rhcl-ai + tests in 3scaleextract and gateforge.
 - **Cursor**: configure workspace per [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) before coding.
 - **Write in English** unless translating legacy Spanish content as part of an approved i18n issue.
+- **Never run `git commit`** unless the user explicitly asks you to commit in the current conversation. Edits, reviews, and local prep (stash, rebase, branch checkout) are fine without a commit; if unsure, ask before committing.
 
 ### Git conventions
 
+- **No commits without explicit user authorization** — same rule as above; do not commit “to save progress” or “to finish the task” on your own.
 - **Never amend** after opening a PR. Commit forward; squash-on-merge handles final cleanup.
 - Force-push only to **rebase onto an updated base**, not to rewrite review history.
 - Tests ship **in the same PR** as code. Test-only PRs are only for refactoring existing tests.
