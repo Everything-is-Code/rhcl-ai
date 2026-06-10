@@ -40,7 +40,9 @@ User-facing product READMEs in sibling repos must also be English — track via 
 - **Never amend** after opening a PR. Commit forward; squash-on-merge handles final cleanup.
 - Force-push only to **rebase onto an updated base**, not to rewrite review history.
 - Tests ship **in the same PR** as code. Test-only PRs are only for refactoring existing tests.
-- Branch names: `feature/EXT-1-description`, `fix/GF-3-ci-tests`, etc., from `main`.
+- Default branch: **`main`** on all RHCL repos
+- **`main` is protected:** changes via PR, 1 approval, no force push (admins may bypass)
+- Branch names: `feature/EXT-1-description`, `fix/GF-3-ci-tests`, etc., from `main`
 - Commit messages: focus on **why**, not mechanical what.
 
 ### PR and review

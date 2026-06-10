@@ -36,7 +36,7 @@ Summary:
 3. Open the **`rhcl/`** folder in Cursor (not a single subrepo).
 4. Verify rules in **Settings → Rules** (`rhcl-global`, `gateforge-java`, `3scaleextract-go`).
 
-See [AGENTS.md](AGENTS.md) (master agent guide) and [CLAUDE.md](CLAUDE.md) (Claude Code).
+See [AGENTS.md](AGENTS.md) (primary agent guide) and [CLAUDE.md](CLAUDE.md) (Claude Code).
 
 Full workspace bootstrap:
 

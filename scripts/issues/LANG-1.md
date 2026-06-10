@@ -46,5 +46,5 @@ Cross-link: [3scaleextract#11](https://github.com/Everything-is-Code/3scaleextra
 
 ## Related
 
-- rhcl-ai [AGENTS.md — Language policy](https://github.com/Everything-is-Code/rhcl-ai/blob/master/AGENTS.md)
+- rhcl-ai [AGENTS.md — Language policy](https://github.com/Everything-is-Code/rhcl-ai/blob/main/AGENTS.md)
 - Rule `rhcl-global.mdc`: English only for agent context

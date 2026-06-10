@@ -18,15 +18,9 @@ We intentionally deferred several practices during RHCL bootstrap (M1 focus: tes
 
 ### 1. Branch protection on default branch
 
-See [branch-protection.md](branch-protection.md). **Highest priority governance item.**
+**Done (2026-06-10):** `main` protected on rhcl-ai, 3scaleextract, gateforge — PR required, 1 approval, no force push/deletion. Admins can bypass.
 
-| Repo | Default branch | Protected today? |
-|------|----------------|----------------|
-| rhcl-ai | `master` | No |
-| 3scaleextract | `main` | No |
-| gateforge | `main` | No |
-
-**Trigger:** GF-3 (mvn test in CI) + 3scaleextract CI stable.
+Phase 2 (after GF-3 / EXT-4): add required CI status checks.
 
 ---
 
@@ -195,14 +189,6 @@ Consume from each product repo via `uses: Everything-is-Code/rhcl-ai/...` (or co
 **Use case:** auto-label `area/integration` when issue body mentions "export" + "gateforge".
 
 Low priority — manual PO labels work at current team size.
-
----
-
-### 14. Rename rhcl-ai default branch `master` → `main`
-
-**Why:** align with 3scaleextract and gateforge; simplify branch protection docs.
-
-**Effort:** rename branch + update clone docs + fix any links.
 
 ---
 
