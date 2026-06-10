@@ -34,7 +34,14 @@ Resumen:
 3. Abrir la carpeta **`rhcl/`** en Cursor (no un subrepo suelto).
 4. Verificar rules en **Settings → Rules** (`rhcl-global`, `gateforge-java`, `3scaleextract-go`).
 
-Ver también [AGENTS.md](AGENTS.md) para instrucciones globales de agentes.
+Ver [AGENTS.md](AGENTS.md) (guía maestra para agentes) y [CLAUDE.md](CLAUDE.md) (Claude Code).
+
+Setup completo del workspace:
+
+```bash
+git clone https://github.com/Everything-is-Code/rhcl-ai.git
+./rhcl-ai/scripts/setup-rhcl-workspace.sh
+```
 
 ## Documentación
 
@@ -44,6 +51,7 @@ Ver también [AGENTS.md](AGENTS.md) para instrucciones globales de agentes.
 | Contrato export v1 | [docs/architecture/export-schema-v1.md](docs/architecture/export-schema-v1.md) |
 | Mapping 3scale → CL | [docs/architecture/3scale-to-cl-mapping.md](docs/architecture/3scale-to-cl-mapping.md) |
 | **Configurar Cursor** | [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) |
+| **Agent governance** | [docs/ai/agent-governance.md](docs/ai/agent-governance.md) |
 | LangChain4j / AI | [docs/ai/gateforge-langchain4j.md](docs/ai/gateforge-langchain4j.md) |
 | MCP tools | [docs/ai/mcp-tools-gateforge.md](docs/ai/mcp-tools-gateforge.md) |
 | Lab local | [docs/workflows/local-lab-setup.md](docs/workflows/local-lab-setup.md) |
