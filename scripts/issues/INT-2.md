@@ -13,7 +13,7 @@ Content-Type: multipart/form-data
 
 Acepta:
 - Directorio export (zip/tar.gz) con `manifest.json` schema 1.0
-- Valida estructura según [rhcl-ai export-schema-v1](https://github.com/Everything-is-Code/rhcl-ai/blob/master/docs/architecture/export-schema-v1.md)
+- Valida estructura según [rhcl-ai export-schema-v1](https://github.com/Everything-is-Code/rhcl-ai/blob/main/docs/architecture/export-schema-v1.md)
 
 ## Dependencias
 

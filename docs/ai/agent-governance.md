@@ -32,18 +32,11 @@ What we adopt from mature **agent-first** repos (reference: `lock_code_manager`)
 
 ## Optional roadmap (post-M1)
 
-See **PO drafts** (internal, not public policy until promoted):
+See **PO drafts**: [docs/drafts/practices-evolution-backlog.md](../drafts/practices-evolution-backlog.md) (labeler, dependabot, release-drafter, pre-commit, …).
 
-- [docs/drafts/practices-evolution-backlog.md](../drafts/practices-evolution-backlog.md) — deferred practices (labeler, dependabot, release-drafter, pre-commit, …)
-- [docs/drafts/branch-protection.md](../drafts/branch-protection.md) — protect `main`/`master`
+**Active governance:** all repos use default branch `main` with branch protection (PR + 1 approval).
 
-Summary:
-
-1. **Branch protection** (P1 before coders) — see GOV-1 issue
-2. **labeler.yml** in gateforge and 3scaleextract
-3. Reusable workflows from rhcl-ai templates
-4. **Dependabot** in all three repos
-5. Minimal **pre-commit** in rhcl-ai (markdownlint, yamllint)
+Summary of deferred items:
 
 ## Maintenance
 

@@ -2,7 +2,7 @@
 
 Implementar parser export v1 → `List<ThreeScaleProduct>` sin Admin API.
 
-Mapping según [3scale-to-cl-mapping.md](https://github.com/Everything-is-Code/rhcl-ai/blob/master/docs/architecture/3scale-to-cl-mapping.md):
+Mapping según [3scale-to-cl-mapping.md](https://github.com/Everything-is-Code/rhcl-ai/blob/main/docs/architecture/3scale-to-cl-mapping.md):
 
 | Export | ThreeScaleProduct field |
 |--------|-------------------------|

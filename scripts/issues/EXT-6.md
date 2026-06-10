@@ -1,6 +1,6 @@
 ## Estado
 
-**Completado** en commit [0644886](https://github.com/Everything-is-Code/3scaleextract/commit/0644886) — templates copiados desde [rhcl-ai/templates/github](https://github.com/Everything-is-Code/rhcl-ai/tree/master/templates/github).
+**Completado** en commit [0644886](https://github.com/Everything-is-Code/3scaleextract/commit/0644886) — templates copiados desde [rhcl-ai/templates/github](https://github.com/Everything-is-Code/rhcl-ai/tree/main/templates/github).
 
 ## Verificación
 

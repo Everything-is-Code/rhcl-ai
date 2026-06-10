@@ -7,7 +7,7 @@ Script/documentación E2E completa:
 3. `threescale-visualize`
 4. GateForge analyze (live hoy; offline post INT-2/3)
 
-Documentar en [rhcl-ai seed-export-visualize-migrate.md](https://github.com/Everything-is-Code/rhcl-ai/blob/master/docs/workflows/seed-export-visualize-migrate.md) y script opcional en `rhcl-ai/scripts/` o `3scaleextract/scripts/demo/`.
+Documentar en [rhcl-ai seed-export-visualize-migrate.md](https://github.com/Everything-is-Code/rhcl-ai/blob/main/docs/workflows/seed-export-visualize-migrate.md) y script opcional en `rhcl-ai/scripts/` o `3scaleextract/scripts/demo/`.
 
 ## Checklist E2E
 
