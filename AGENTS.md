@@ -39,7 +39,7 @@ User-facing product READMEs in sibling repos must also be English — track via 
 ### Git conventions
 
 - **No commits without explicit user authorization** — same rule as above; do not commit “to save progress” or “to finish the task” on your own.
-- **Commit identity** — when the user authorizes a commit, the agent runs `git commit` on the user's machine. **Author and committer are always the user's local Git config** (`user.name`, `user.email`). The agent does not use a separate agent identity. Cursor may append `Co-authored-by: Cursor <cursoragent@cursor.com>` via tooling; that does not replace the author.
+- **Commit identity** — when the user authorizes a commit, the agent runs `git commit` on the user's machine. **Author and committer are always the user's local Git config** (`user.name`, `user.email`). The agent does not use a separate agent identity.
 - **Never change Git config** — do not run `git config` (global or local) to set user name, email, or hooks.
 - **Never amend** after opening a PR. Commit forward; squash-on-merge handles final cleanup.
 - Force-push only to **rebase onto an updated base**, not to rewrite review history.
