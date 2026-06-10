@@ -11,4 +11,4 @@ alwaysApply: true
 - Offline export contract: `schema_version` **1.0** in `manifest.json` (see rhcl-ai/docs/architecture/export-schema-v1.md).
 - Do not commit secrets; use `--redact-secrets` when exporting fixtures.
 - Issues referenced as EXT-*, GF-*, INT-* per repo.
-- Prioritize tests before new features in GateForge (no `src/test/` yet).
+- GateForge test coverage is still thin (GF-1); run `mvn test` before handing back backend changes.

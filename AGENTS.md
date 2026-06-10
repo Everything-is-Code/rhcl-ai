@@ -32,21 +32,17 @@ User-facing product READMEs in sibling repos must also be English — track via 
 - **When creating a PR**: always use [templates/github/.github/pull_request_template.md](templates/github/.github/pull_request_template.md).
 - **Never commit secrets**: 3scale tokens, kubeconfigs, OIDC client secrets, local `.env` files.
 - **Export contract changes** (`schema_version`): update rhcl-ai + tests in 3scaleextract and gateforge.
-- **Cursor**: configure workspace per [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) before coding.
-- **Write in English** unless translating legacy Spanish content as part of an approved i18n issue.
-- **Never run `git commit`** unless the user explicitly asks you to commit in the current conversation. Edits, reviews, and local prep (stash, rebase, branch checkout) are fine without a commit; if unsure, ask before committing.
+- **Cursor workspace**: [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md) · bootstrap [scripts/setup-rhcl-workspace.sh](scripts/setup-rhcl-workspace.sh)
 
 ### Git conventions
 
-- **No commits without explicit user authorization** — same rule as above; do not commit “to save progress” or “to finish the task” on your own.
-- **Commit identity** — when the user authorizes a commit, the agent runs `git commit` on the user's machine. **Author and committer are always the user's local Git config** (`user.name`, `user.email`). The agent does not use a separate agent identity.
-- **Never change Git config** — do not run `git config` (global or local) to set user name, email, or hooks.
+- **Commits** — run `git commit` only when the user explicitly asks in the current conversation. Edits and local prep (stash, rebase, checkout) are fine; do not commit to save progress.
+- **Commit identity** — author and committer are always the user's local Git config (`user.name`, `user.email`); never run `git config` to change identity or hooks.
 - **Never amend** after opening a PR. Commit forward; squash-on-merge handles final cleanup.
 - Force-push only to **rebase onto an updated base**, not to rewrite review history.
 - Tests ship **in the same PR** as code. Test-only PRs are only for refactoring existing tests.
-- Default branch: **`main`** on all RHCL repos
-- **`main` is protected:** changes via PR, 1 approval, no force push (admins may bypass)
-- Branch names: `feature/EXT-1-description`, `fix/GF-3-ci-tests`, etc., from `main`
+- Default branch: **`main`** on all RHCL repos · protected (PR required, 1 approval, no force push; admins may bypass).
+- Branch names: `feature/EXT-1-description`, `fix/GF-3-ci-tests`, etc., from `main`.
 - Commit messages: focus on **why**, not mechanical what.
 
 ### PR and review
@@ -55,20 +51,9 @@ User-facing product READMEs in sibling repos must also be English — track via 
 - Address review comments (human or bot) or explain why not applicable.
 - PO uses skill `pr-review-rhcl` — checklist in [.cursor/skills/pr-review-rhcl/SKILL.md](.cursor/skills/pr-review-rhcl/SKILL.md).
 
-## External repositories / workspace layout
+## Workspace layout
 
-Recommended layout (open parent directory **`rhcl/`** in Cursor):
-
-```
-rhcl/
-├── 3scaleextract/
-├── gateforge/
-├── rhcl-ai/          ← this repo (rules, skills, docs)
-├── .cursor/          ← symlink or copy from rhcl-ai/.cursor
-└── AGENTS.md         ← optional: symlink to rhcl-ai/AGENTS.md
-```
-
-Automated setup: [scripts/setup-rhcl-workspace.sh](scripts/setup-rhcl-workspace.sh)
+Open parent directory **`rhcl/`** in Cursor (`3scaleextract/`, `gateforge/`, `rhcl-ai/`, `.cursor/` synced from rhcl-ai). Details: [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md).
 
 ## Architecture (summary)
 
@@ -88,72 +73,11 @@ flowchart LR
 | Export contract | [export-schema-v1.md](docs/architecture/export-schema-v1.md) |
 | 3scale → CL mapping | [3scale-to-cl-mapping.md](docs/architecture/3scale-to-cl-mapping.md) |
 
-### GateForge — key components
-
-- `MigrationService` — analyze/apply, strategies `shared` / `dual` / `dedicated`
-- `ThreeScaleService` — live Admin API + CRD discovery
-- `ThreeScaleProduct` — target model; offline import (INT-2/3) maps from export v1
-- Kuadrant resources: HTTPRoute, AuthPolicy, RateLimitPolicy, APIProduct, APIKey
-
-### 3scaleextract — key components
-
-- `internal/export` — hybrid Admin API + Red Hat toolbox export
-- `internal/seed` — lab fixtures (`seed_api_key`, `seed_oidc`, …)
-- `internal/visualize` — Markdown reports from on-disk export
-- `output.SchemaVersion = "1.0"`
-
-## Development commands
-
-### RHCL workspace setup
-
-```bash
-git clone https://github.com/Everything-is-Code/rhcl-ai.git
-./rhcl-ai/scripts/setup-rhcl-workspace.sh   # clones 3scaleextract + gateforge, syncs .cursor
-```
-
-### 3scaleextract
-
-```bash
-cd 3scaleextract
-go test ./...
-go test -tags=integration ./internal/export/...   # live tenant + THREESCALE_*
-go build -o bin/threescale-export ./cmd/threescale-export
-./scripts/demo/seed-and-export.sh                 # lab demo
-```
-
-### gateforge
-
-```bash
-cd gateforge/backend && mvn test
-cd gateforge/backend && mvn quarkus:dev
-cd gateforge/frontend && npm install && npm test && npm start
-cp .env.example .env && ./scripts/local-up.sh     # Podman stack
-```
-
-### rhcl-ai
-
-```bash
-./scripts/sync-cursor-config.sh    # after git pull in rhcl-ai
-```
+Key entry points: `MigrationService` / `ThreeScaleService` (gateforge) · `internal/export` / `internal/seed` (3scaleextract) · export `schema_version` **1.0**.
 
 ## Code style
 
-### Go (3scaleextract)
-
-- Target module: `github.com/Everything-is-Code/3scaleextract`
-- stdlib tests + HTTP mocks; no network in unit tests
-- Explicit errors; do not silently swallow Admin API failures in critical seed/export paths
-
-### Java (gateforge)
-
-- Quarkus 3.x, Panache, Fabric8 K8s client
-- JUnit 5 + Mockito for services
-- Identifiers in English; logs via `LOG.infof`
-
-### TypeScript (gateforge frontend)
-
-- Angular 19, RxJS
-- Jasmine/Karma tests; mock `ApiService` in components
+Repo-specific rules in `.cursor/rules/` (`gateforge-java.mdc`, `3scaleextract-go.mdc`, `rhcl-global.mdc`). Per-stack conventions also in each repo README.
 
 ## Testing philosophy
 
@@ -166,8 +90,8 @@ cp .env.example .env && ./scripts/local-up.sh     # Podman stack
 | gateforge | `ThreeScaleService`, K8s client | `MigrationService.analyze()` |
 | gateforge frontend | `HttpClient` / `ApiService` | Wizard components |
 
-- Live tenant integration tests: `integration` tag (3scaleextract), not in default CI (EXT-3).
-- GateForge **must** run `mvn test` in CI (GF-3) — Quay build currently uses `-DskipTests`.
+- 3scaleextract integration tests: `integration` tag (EXT-3), not default CI.
+- GateForge backend has minimal unit tests today (`PrerequisiteCatalogServiceTest`); **P0 (GF-1, GF-3)**: `MigrationService` coverage and CI without `-DskipTests`.
 
 ## PO priorities
 
@@ -189,8 +113,6 @@ Milestones: **M1** Test foundation · **M2** Integration offline · **M3** E2E l
 | `3scale-export-schema` | Export v1, parser, fixtures |
 | `pr-review-rhcl` | PR review |
 
-Setup: [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md)
-
 ## Coder workflow
 
 1. Pick issue with `area/*` label and milestone.
@@ -202,15 +124,5 @@ Setup: [docs/ai/cursor-setup.md](docs/ai/cursor-setup.md)
 
 - [3scaleextract README](https://github.com/Everything-is-Code/3scaleextract)
 - [gateforge README](https://github.com/Everything-is-Code/gateforge)
+- [Agent governance](docs/ai/agent-governance.md)
 - Toolbox: `registry.redhat.io/3scale-amp2/toolbox-rhel9:3scale2.16`
-
-## Adopted practices (reference)
-
-Patterns inspired by mature agent-first projects (e.g. `lock_code_manager`):
-
-- `AGENTS.md` as single source + thin `CLAUDE.md`
-- Explicit agent operational rules (tests before handback, git conventions)
-- Architecture and dev commands in the file agents consume
-- Standardized GitHub templates + `blank_issues_enabled: false`
-
-See [docs/ai/agent-governance.md](docs/ai/agent-governance.md) for RHCL-specific adoption details.
