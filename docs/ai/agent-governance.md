@@ -32,10 +32,18 @@ What we adopt from mature **agent-first** repos (reference: `lock_code_manager`)
 
 ## Optional roadmap (post-M1)
 
-1. **labeler.yml** in gateforge and 3scaleextract (`java`, `go`, `frontend`, `github-config`)
-2. Reusable workflows from rhcl-ai templates (`go-checks.yml`, `java-checks.yml`)
-3. **Dependabot** in all three repos
-4. Minimal **pre-commit** in rhcl-ai (markdownlint, yamllint on templates)
+See **PO drafts** (internal, not public policy until promoted):
+
+- [docs/drafts/practices-evolution-backlog.md](../drafts/practices-evolution-backlog.md) — deferred practices (labeler, dependabot, release-drafter, pre-commit, …)
+- [docs/drafts/branch-protection.md](../drafts/branch-protection.md) — protect `main`/`master`
+
+Summary:
+
+1. **Branch protection** (P1 before coders) — see GOV-1 issue
+2. **labeler.yml** in gateforge and 3scaleextract
+3. Reusable workflows from rhcl-ai templates
+4. **Dependabot** in all three repos
+5. Minimal **pre-commit** in rhcl-ai (markdownlint, yamllint)
 
 ## Maintenance
 
