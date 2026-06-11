@@ -13,7 +13,7 @@ Guidance for **all coding agents** (Cursor, Claude Code, Codex, etc.) in the **R
 - Architecture docs, workflows, and GitHub templates in `rhcl-ai`
 - Code identifiers, comments, commit messages, PR descriptions, and GitHub issues
 
-User-facing product READMEs in sibling repos must also be English — track via [rhcl-ai#3](https://github.com/Everything-is-Code/rhcl-ai/issues/3) and [3scaleextract#11](https://github.com/Everything-is-Code/3scaleextract/issues/11).
+User-facing product READMEs in sibling repos must also be English — track via [3scaleextract#11](https://github.com/Everything-is-Code/3scaleextract/issues/11) and [gateforge#21](https://github.com/Everything-is-Code/gateforge/issues/21).
 
 ## Overview
 
